@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    console.log("hello World");
+
+    function getComputerChoice() {
+      let choice = Math.random();
+      if (choice < .33) {
+        return "ROCK"
+      }
+
+      if (.33 < choice && choice < .66) {
+        return "SCISSORS"
+      }
+
+      if (.66 < choice) {
+        return "PAPER"
+      }
+    } // end of function
+
+    function getHumanChoice() {
+      let userInput = prompt("Type Rock, Paper, or Scissors")
+      return userInput.toUpperCase();
+    }
+
+    function playRound(humanChoice, computerChoice) {
+      if (humanChoice === computerChoice){
+        console.log(`Tie! You both chose ${humanChoice}!`);
+        return null
+      }
+
+      if (humanChoice === "ROCK" && computerChoice === "PAPER") {
+        console.log(`You lose! Paper beats Rock!`);
+        return false
+
+      }
+
+      if (humanChoice === "PAPER" && computerChoice === "ROCK") {
+        console.log(`You win! Paper beats Rock!`);
+        return true
+      }
+
+      if (humanChoice === "SCISSORS" && computerChoice === "ROCK") {
+        console.log(`You lose! Rock beats Scissors!`)
+        return false
+      }
+
+      if (humanChoice === "ROCK" && computerChoice === "SCISSORS") {
+        console.log(`You win! Rock beats Scissors!`)
+        return true
+      }
+
+      if (humanChoice === "SCISSORS" && computerChoice === "PAPER") {
+        console.log(`You win! Scissors beats Paper!`)
+        return true
+      }
+
+      if (humanChoice === "PAPER" && computerChoice === "SCISSORS") {
+        console.log(`You lose! Scissors beats Paper!`)
+        return false
+      }
+    }
+
+    function playGame() {
+      let humanWins = 0;
+      let aiWins = 0;
+      let rounds = 0;
+
+      while(rounds < 5) {
+        let humanChoice = getHumanChoice();
+        let computerChoice = getComputerChoice();
+        let result = playRound(humanChoice, computerChoice);
+        if (result === true) {
+          humanWins++
+        } else if (result === false) {
+          aiWins++
+        }
+
+        if (result != null) {
+          rounds++
+        }
+      
+        console.log(`aiWins: ${aiWins} humanWins: ${humanWins}`)
+      }
+    }
+    playGame();
+  </script>
+</body>
+</html>
