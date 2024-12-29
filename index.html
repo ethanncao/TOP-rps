@@ -6,9 +6,12 @@
   <title>Document</title>
 </head>
 <body>
+  <button>Rock</button>
+  <button>Paper</button>
+  <button>Scissors</button>
+  <div class="results">results...</div>
+  <div class="score"></div>
   <script>
-    console.log("hello World");
-
     function getComputerChoice() {
       let choice = Math.random();
       if (choice < .33) {
@@ -24,72 +27,80 @@
       }
     } // end of function
 
-    function getHumanChoice() {
-      let userInput = prompt("Type Rock, Paper, or Scissors")
-      return userInput.toUpperCase();
-    }
+    //keeping track of the score
+    const score = document.querySelector('.score');
+    aiWins = 0
+    humanWins = 0
+    score.innerHTML = `AI Wins: ${aiWins} Human Wins: ${humanWins}`;
 
     function playRound(humanChoice, computerChoice) {
+      const result = document.querySelector('.results');
       if (humanChoice === computerChoice){
-        console.log(`Tie! You both chose ${humanChoice}!`);
-        return null
+        result.innerHTML = `Tie! You both chose ${humanChoice}!`;
       }
 
       if (humanChoice === "ROCK" && computerChoice === "PAPER") {
-        console.log(`You lose! Paper beats Rock!`);
-        return false
-
+        result.innerHTML = `You lose! Paper beats Rock!`;
+        aiWins++;
       }
 
       if (humanChoice === "PAPER" && computerChoice === "ROCK") {
-        console.log(`You win! Paper beats Rock!`);
-        return true
+        result.innerHTML = `You win! Paper beats Rock!`
+        humanWins++;
       }
 
       if (humanChoice === "SCISSORS" && computerChoice === "ROCK") {
-        console.log(`You lose! Rock beats Scissors!`)
-        return false
+        result.innerHTML = `You lose! Rock beats Scissors!`
+        aiWins++
       }
 
       if (humanChoice === "ROCK" && computerChoice === "SCISSORS") {
-        console.log(`You win! Rock beats Scissors!`)
-        return true
+        humanWins++
+        result.innerHTML = `You win! Rock beats Scissors!`
       }
 
       if (humanChoice === "SCISSORS" && computerChoice === "PAPER") {
-        console.log(`You win! Scissors beats Paper!`)
-        return true
+        result.innerHTML = `You win! Scissors beats Paper!`
+        humanWins++
       }
 
       if (humanChoice === "PAPER" && computerChoice === "SCISSORS") {
-        console.log(`You lose! Scissors beats Paper!`)
-        return false
+        result.innerHTML = `You lose! Scissors beats Paper!`
+        aiWins++
+      }
+
+      score.innerHTML = `AI Wins: ${aiWins} Human Wins: ${humanWins}`;
+
+      if (aiWins == 5) {
+        //alert who has won
+        setTimeout(()=> {
+          alert("AI has won this game!")
+          //reset the score
+          aiWins = 0;
+          humanWins = 0;
+          score.innerHTML = `AI Wins: ${aiWins} Human Wins: ${humanWins}`;
+        }, 500);
+      } else if (humanWins == 5) {
+        //alert who has won
+        setTimeout(()=> {
+          alert("Human has won this game!")
+           //reset the score
+          aiWins = 0;
+          humanWins = 0;
+          score.innerHTML = `AI Wins: ${aiWins} Human Wins: ${humanWins}`;
+        }, 500);
       }
     }
 
-    function playGame() {
-      let humanWins = 0;
-      let aiWins = 0;
-      let rounds = 0;
-
-      while(rounds < 5) {
-        let humanChoice = getHumanChoice();
+    // Adding an event listener to every button
+    let options = document.querySelectorAll('button');
+    options.forEach(function (i) {
+      i.addEventListener('click', () => {
+        let humanChoice = event.target.innerHTML.toUpperCase();
         let computerChoice = getComputerChoice();
-        let result = playRound(humanChoice, computerChoice);
-        if (result === true) {
-          humanWins++
-        } else if (result === false) {
-          aiWins++
-        }
-
-        if (result != null) {
-          rounds++
-        }
-      
-        console.log(`aiWins: ${aiWins} humanWins: ${humanWins}`)
-      }
-    }
-    playGame();
+        playRound(humanChoice, computerChoice);
+      })
+    })
   </script>
 </body>
 </html>
